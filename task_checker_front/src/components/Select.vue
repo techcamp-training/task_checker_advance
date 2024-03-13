@@ -1,12 +1,13 @@
 <script setup>
+import { useGenreStore } from '../stores/genreStore';
+
+const genreStore = useGenreStore();
 
 </script>
 
 <template>
   <select class="select">
-    <option value="0">0</option>
-    <option value="1">1</option>
-    <option value="2">2</option>
+    <option v-for="genre in genreStore.genres" :key="genre.id" value={{genre.id}}>{{ genre.name }}</option>
   </select>
 </template>
 

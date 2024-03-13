@@ -5,7 +5,11 @@ import Task from './Task.vue'
 import FormModal from './FormModal.vue';
 
 import { ref } from 'vue'
+import { useTaskStore } from '../stores/taskStore';
+
+const taskStore = useTaskStore();
 const showModal = ref(false)
+
 </script>
 
 <template>
@@ -19,8 +23,8 @@ const showModal = ref(false)
       />
       <FormModal v-model="showModal" body="taskBody"/>
     </div>
-    <div class="task_field">
-      <Task />
+    <div class="task_field" v-for="task in taskStore.tasks" :key="task.id">
+      <Task :task="task"/>
     </div>
   </div>
 </template>
