@@ -1,5 +1,6 @@
 const express = require("express")
 const app = express();
+app.use(express.json());
 
 // prismaを読み込む記述
 const { PrismaClient } = require('@prisma/client');
@@ -31,6 +32,23 @@ app.get("/genres", async(req, res) => {
   res.json(AllGenres)
   } catch(error) {
   console.log(error)
+  }
+})
+
+// タスクの作成
+app.post("/tasks", async (req, res) => {
+  console.log(req.body)
+  try {
+    const deadlineDate = new Date(req.body.deadlineDate)
+    const savedData = await prisma.task.create({
+      data: {
+        ...req.body,
+        deadlineDate: deadlineDate
+      },
+    });
+    res.json(savedData)
+  } catch(error) {
+    res.status(500).send("タスクの保存に失敗しました")
   }
 })
 
