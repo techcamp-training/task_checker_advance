@@ -29,6 +29,16 @@ export const useTaskStore = defineStore('task', () => {
     }
   }
 
-  return { tasks, filteredTasks, fetchAllTasks, filterTasks }
+  async function addTask(newTask) {
+    try{
+      const response = await api.post('/tasks', newTask)
+      const addedTask = response.data;
+      tasks.value.push(addedTask)
+    }catch(error){
+      console.log('タスクデータの保存ができませんでした', error);
+    }
+  }
+
+  return { tasks, filteredTasks, fetchAllTasks, filterTasks, addTask }
 })
  
