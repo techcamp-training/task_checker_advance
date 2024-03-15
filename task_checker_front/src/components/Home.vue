@@ -4,7 +4,6 @@ import Select from './Select.vue'
 import ToDoList from './ToDoList.vue'
 import FormModal from './FormModal.vue'
 import AddCircleIcon from 'vue-material-design-icons/PlusCircleOutline.vue'
-import api from '../api/axios'
 import { ref, onMounted } from 'vue'
 import { useTaskStore } from '../stores/taskStore'
 import { useGenreStore } from '../stores/genreStore'
@@ -12,7 +11,14 @@ import { useGenreStore } from '../stores/genreStore'
 const showModal = ref(false);
 const taskStore = useTaskStore();
 const genreStore = useGenreStore();
-
+const taskStatusElements = [
+    "ToDo",
+    "Pending",
+    "Doing(ToDay)",
+    "WIP",
+    "Check",
+    "Done",
+  ]
 
 onMounted(async()=> {
   try{
@@ -23,23 +29,38 @@ onMounted(async()=> {
 
   try {
     await genreStore.fetchAllGenres();
-    const AllGenres = await api.get('/genres')
   }catch(error){
     console.log(error)
   }
 })
+
+const changeSelectedGenreId = (e) => {
+  const selectGenreId = Number(e.target.value);
+  taskStore.filterTasks(selectGenreId);
+}
+
+const filterTasksByStatus = (statusIndex) => {
+  //statusで受け取った値がtaskStatusの配列の何番目の数値か調べる。
+  const index = statusIndex
+  //indexとtask.statusの値が同じ場合のみデータ取得する。
+  return taskStore.filteredTasks.filter(task => task.status == index);
+}
+
+
 </script>
 
 <template>
   <div class="main">
     <Header />
     <div class="genre">
-      <Select />
+      <Select @change="changeSelectedGenreId"/>
       <AddCircleIcon class="add_circle_outline_icon" @click="showModal = true"/>
       <FormModal v-model="showModal" body="genreBody"/>
     </div>
     <div class="contents">
-      <ToDoList />
+      <div v-for="(status, index) in taskStatusElements" :key="index">
+        <ToDoList :tasks="filterTasksByStatus(index)" :status="status"/>
+      </div>
     </div>
   </div>
 </template>
@@ -62,5 +83,12 @@ onMounted(async()=> {
 .add_circle_outline_icon {
   margin-left: 10px;
   color: rgb(70, 70, 70);
+}
+
+.contents {
+  display: flex;
+  height: calc(100vh - 120px);
+  width: 100%;
+  overflow: auto;
 }
 </style>
