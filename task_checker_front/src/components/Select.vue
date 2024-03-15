@@ -7,7 +7,7 @@ const genreStore = useGenreStore();
 
 <template>
   <select class="select">
-    <option v-for="genre in genreStore.genres" :key="genre.id" value={{genre.id}}>{{ genre.name }}</option>
+    <option v-for="genre in genreStore.genres" :key="genre.id" :value=genre.id>{{ genre.name }}</option>
   </select>
 </template>
 
