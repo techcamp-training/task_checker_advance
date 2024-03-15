@@ -20,6 +20,9 @@ const toggleShowTasks = () => {
   showTask.value = !showTask.value
 }
 
+const closeModal = () => {
+  showModal.value = false
+}
 
 </script>
 
@@ -33,7 +36,7 @@ const toggleShowTasks = () => {
         class="add_circle_outline_icon"
         @click="showModal = true"
       />
-      <FormModal v-model="showModal" body="taskBody"/>
+      <FormModal v-model="showModal" body="taskBody" @close-modal="closeModal"/>
     </div>
     <div class="task_field" v-for="task in props.tasks" :key="task.id" v-if="showTask">
       <Task :task="task"/>

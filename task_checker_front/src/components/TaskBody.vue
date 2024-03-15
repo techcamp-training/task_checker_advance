@@ -1,5 +1,28 @@
 <script setup>
 import Select from './Select.vue'
+import { ref, defineEmits } from 'vue'
+import { useTaskStore } from '../stores/taskStore';
+
+const task = ref({
+  name: '',
+  explanation: '',
+  deadlineDate: '',
+  status: 0,
+  genreId: null
+})
+
+const taskStore = useTaskStore();
+const emit = defineEmits(['close-modal'])
+
+const genreSelect = (e) => {
+  task.value.genreId = Number(e.target.value)
+}
+
+const submitTask = async() => {
+  taskStore.addTask(task.value);
+  emit('close-modal')
+}
+
 </script>
 
 <template>
@@ -8,16 +31,16 @@ import Select from './Select.vue'
     <div>
       <h4 class="input_title">ジャンル</h4>
       <div class="task_genre">
-        <Select />
+        <Select @change="genreSelect" :value="task.genreId"/>
       </div>
       <h4 class="input_title">タイトル</h4>
-      <input type="text" />
+      <input type="text" v-model="task.name"/>
       <h4 class="input_title">説明</h4>
-      <textarea />
+      <textarea v-model="task.explanation"/>
       <h4 class="input_title">期限</h4>
-      <input class="input_date" type="date" />
+      <input class="input_date" type="date" v-model="task.deadlineDate"/>
     </div>
-    <input class="input_submit" type="button" value="送信" />
+    <input class="input_submit" type="button" value="送信" @click="submitTask"/>
   </form>
 </template>
 
