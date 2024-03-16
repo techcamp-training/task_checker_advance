@@ -1,5 +1,5 @@
 <script setup>
-import { computed,defineEmits } from 'vue'
+import { computed } from 'vue'
 import GenreBody from './GenreBody.vue'
 import TaskBody from './TaskBody.vue'
 
