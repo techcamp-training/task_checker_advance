@@ -3,7 +3,7 @@ import { createRouter, createWebHistory } from 'vue-router';
 import SignIn from '../components/SignIn.vue'
 import SignUp from '../components/SignUp.vue';
 import Home from '../components/Home.vue';
-import { auth } from '../firebase'
+import { auth,onAuthStateChanged } from '../firebase'
 
 const routes = [
   {
