@@ -37,7 +37,6 @@ app.get("/genres", async(req, res) => {
 
 // タスクの作成
 app.post("/tasks", async (req, res) => {
-  console.log(req.body)
   try {
     const deadlineDate = new Date(req.body.deadlineDate)
     const savedData = await prisma.task.create({
