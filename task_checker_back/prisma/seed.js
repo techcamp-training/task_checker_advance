@@ -13,17 +13,6 @@ async function main() {
       ],
     });
   }
-  // タスクデータの作成
-  // タスクデータが存在しない場合は、デフォルトデータを保存する。
-  const tasksCount = await prisma.task.count();
-  if(tasksCount === 0) {
-    await prisma.task.createMany({
-      data: [
-        { name: "task1", explanation: "test1", deadlineDate: new Date("2024-01-01"), status: 0, genreId: 1 },
-        { name: "task2", explanation: "test2", deadlineDate: new Date("2024-01-02"), status: 0, genreId: 2 },
-      ],
-    });
-  }
 }
 
 main()
